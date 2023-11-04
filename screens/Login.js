@@ -1,20 +1,27 @@
-import { StyleSheet, Text, View, StatusBar, TouchableOpacity, TextInput } from "react-native";
-import React, { useState } from "react";
+import React, { useState } from "react"; // Import React and useState hook
+import { View, Text, StyleSheet, StatusBar, TouchableOpacity, TextInput } from "react-native"; // Import components from React Native
 
-import { useNavigation } from '@react-navigation/native';
-import { firebase } from '../services/config'
-import { Feather } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook from React Navigation
+import { firebase } from '../services/config'; // Import Firebase configuration
 
-const LoginScreen = () => {
+import { Feather } from '@expo/vector-icons'; // Import icons from Expo vector icons
+
+
+const Login = () => {
+    // Initialize navigation
     const navigation = useNavigation();
 
+    // State variable to store the credentials
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    loginUser = async (email, password) => {
+    // Function to log in the user with email and password
+    const loginUser = async (email, password) => {
         try {
+            // Attempt to sign in with the provided email and password
             await firebase.auth().signInWithEmailAndPassword(email, password)
         } catch (error) {
+            // Display an alert with the error message
             alert(error.message)
         }
     }
@@ -48,30 +55,31 @@ const LoginScreen = () => {
             <TouchableOpacity style={styles.buttonStart} onPress={() => loginUser(email, password)}>
                 <Text style={styles.buttonText}>LOGIN</Text>
             </TouchableOpacity>
-            <Text style={styles.buttonTextHeading} onPress={() => navigation.navigate("Register")}>Don't have an account? <Text style={styles.subheading}>SignUp here</Text></Text>
+            <Text style={styles.buttonTextHeading} onPress={() => navigation.navigate("Register")}>Don't have an account? <Text style={styles.subheading}>Sign Up here</Text></Text>
         </View>
     );
 };
 
-export default LoginScreen;
+export default Login;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: StatusBar.currentHeight,
         alignItems: 'center',
         justifyContent: 'center',
+        padding: 20, /* Added padding for better mobile layout */
+        marginTop: StatusBar.currentHeight,
     },
     heading: {
-        alignSelf: 'center',
-        fontSize: 50,
-        fontWeight: '900',
+        fontSize: 35, /* Adjusted font size for better mobile readability */
+        fontWeight: '700', /* Adjusted font weight */
         color: '#F18404',
-        letterSpacing: 10,
+        letterSpacing: 5, /* Adjusted letter spacing */
+        textAlign: 'center', /* Centered text */
     },
     inputContainer: {
-        marginTop: 25,
-        width: '80%',
+        marginTop: 20, /* Reduced margin for better mobile spacing */
+        width: '90%', /* Increased width for better mobile layout */
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
@@ -84,20 +92,19 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     input: {
-        fontSize: 18,
+        fontSize: 16, /* Adjusted font size for better mobile readability */
     },
     buttonStart: {
         marginVertical: 20,
         backgroundColor: '#F18404',
-        paddingHorizontal: '10%',
-        paddingVertical: '2%',
+        paddingHorizontal: 20, /* Adjusted padding for better mobile layout */
+        paddingVertical: 10, /* Adjusted padding for better mobile layout */
         borderRadius: 30,
         elevation: 5,
-        padding: 16,
     },
     buttonText: {
         color: 'white',
-        fontSize: 25,
+        fontSize: 18, /* Adjusted font size for better mobile readability */
         fontWeight: 'bold',
     },
     buttonTextHeading: {
@@ -105,8 +112,9 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
     subheading: {
-        fontSize: 16,
-        fontWeight: 'bold',
+        fontSize: 18, /* Adjusted font size for better mobile readability */
+        fontWeight: '700', /* Adjusted font weight */
         color: '#F18404',
     },
 });
+

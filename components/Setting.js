@@ -1,21 +1,23 @@
-import React, { useState } from 'react';
-import { Modal, StyleSheet, Text, Pressable, View } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Entypo } from '@expo/vector-icons';
+import React, { useState } from 'react'; // Import React and the useState hook
+import { StyleSheet, Modal, Text, Pressable, View } from 'react-native'; // Import components from React Native for creating a modal
 
-const SettingScreen = () => {
+import Icon from 'react-native-vector-icons/FontAwesome'; // Import FontAwesome icon library
+import { Entypo } from '@expo/vector-icons'; // Import icons from Expo vector icons
+
+const Setting = () => {
+    // Define an array of settings data, each item having an id, title, content, and icon
     const settingData = [
         { id: 1, title: 'About', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consectetur gravida imperdiet. Mauris venenatis dui neque, quis blandit elit semper vitae. Duis ut lacus quis sapien accumsan tempor. Mauris non.', icon: 'question-circle-o' },
         { id: 2, title: 'Terms and condition', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consectetur gravida imperdiet. Mauris venenatis dui neque, quis blandit elit semper vitae. Duis ut lacus quis sapien accumsan tempor. Mauris non.', icon: 'file-o' },
         { id: 3, title: 'Help and Support', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consectetur gravida imperdiet. Mauris venenatis dui neque, quis blandit elit semper vitae. Duis ut lacus quis sapien accumsan tempor. Mauris non.', icon: 'phone' },
     ];
-
+    // Define state variable to keep track of the active modal index
     const [activeModalIndex, setActiveModalIndex] = useState(null);
-
+    // Function to open a modal by setting the active index
     const openModal = (index) => {
         setActiveModalIndex(index);
     };
-
+    // Function to close the active modal by resetting the active index to null
     const closeModal = () => {
         setActiveModalIndex(null);
     };
@@ -33,13 +35,12 @@ const SettingScreen = () => {
                     </Pressable>
                 ))}
             </View>
-
-
             {settingData.map((settingData, index) => (
                 <Modal
                     key={settingData.id}
                     visible={activeModalIndex === index}
                     animationType="slide"
+                    transparent={true}
                 >
                     <View style={styles.modalContainer}>
                         <View style={styles.modalBox}>
@@ -57,7 +58,7 @@ const SettingScreen = () => {
     );
 };
 
-export default SettingScreen;
+export default Setting;
 
 const styles = StyleSheet.create({
     container: {

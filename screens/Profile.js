@@ -1,14 +1,19 @@
-import { StyleSheet, Text, View, StatusBar, TouchableOpacity } from "react-native";
-import React, { useState, useEffect } from 'react';
-import { firebase } from "../services/config";
-import { useNavigation } from "@react-navigation/native";
-import { MaterialIcons } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
+import React, { useState, useEffect } from 'react'; // Import React and the necessary hooks
+import { StyleSheet, Text, View, StatusBar, TouchableOpacity } from 'react-native'; // Import components from React Native
 
-const ProfileScreen = () => {
+import { firebase } from '../services/config'; // Import Firebase configuration
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook from React Navigation
+
+import { MaterialIcons, AntDesign } from '@expo/vector-icons'; // Import icons from Expo vector icons
+
+const Profile = () => {
+    // Initialize navigation
     const navigation = useNavigation();
 
+    // State variable to store the user's name
     const [name, setName] = useState("");
+
+    // Fetch the user's name from Firestore when the component mounts
     useEffect(() => {
         firebase
             .firestore()
@@ -17,12 +22,13 @@ const ProfileScreen = () => {
             .get()
             .then((snapshot) => {
                 if (snapshot.exists) {
+                    // If the user exists, set the 'name' state variable to the user's name
                     setName(snapshot.data());
-                } else {
-                    console.log("User does not exist");
                 }
             });
     }, []);
+
+
     return (
         <View style={styles.container}>
             <View style={styles.topLayer} />
@@ -34,7 +40,7 @@ const ProfileScreen = () => {
                     <AntDesign name="user" size={50} color="gray" />
                 </View>
                 <Text style={styles.profileName}>
-                    {name.firstName} {name.lastName}
+                    {name.fullName}
                 </Text>
                 <Text style={styles.emailName}>{name.email}</Text>
 
@@ -55,18 +61,16 @@ const ProfileScreen = () => {
     );
 };
 
-export default ProfileScreen;
+export default Profile;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         marginTop: StatusBar.currentHeight,
-        // backgroundColor: 'white',
-        // alignItems: 'center',
     },
     topLayer: {
         backgroundColor: '#F18404',
-        flex: 1
+        flex: 1.5
     },
     bottomLayer: {
         flex: 3,
@@ -82,10 +86,9 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         borderColor: '#F18404',
         elevation: 20,
-        height: '30%',
+        height: '35%',
         width: '85%',
         top: '5%',
-        gap: -5,
     },
     profileName: {
         marginTop: 10,
@@ -103,11 +106,11 @@ const styles = StyleSheet.create({
     buttonStart: {
         marginTop: 10,
         backgroundColor: '#F18404',
-        paddingHorizontal: '5%',
-        paddingVertical: '2%',
+        paddingHorizontal: 16, /* Adjusted padding values for cross-browser compatibility */
+        paddingVertical: 8, /* Adjusted padding values for cross-browser compatibility */
         borderRadius: 10,
         elevation: 5,
-        padding: 16,
+        padding: 16, /* Adjusted for consistency */
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
@@ -117,3 +120,4 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
 });
+

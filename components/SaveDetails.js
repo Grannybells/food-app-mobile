@@ -1,29 +1,69 @@
-import React from "react"; // Import React
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from "react-native"; // Import components from React Native
+import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from "react-native"; // Import components from React Native
+import React, { useState, useEffect } from "react"; // Import React and necessary hooks
 
 import { useRoute } from '@react-navigation/native'; // Import the useRoute hook from React Navigation
-import { deleteDoc, doc } from 'firebase/firestore'; // Import Firestore functions
-import { db } from "../services/config"; // Import Firebase configuration
+import { firebase } from '../services/config'; // Import Firebase configuration
+import { collection, doc, getDoc, deleteDoc } from 'firebase/firestore'; // Import Firestore functions
 import { useNavigation } from '@react-navigation/native'; // Import the useNavigation hook from React Navigation
 
-const CreatedRecipe = () => {
+import { MaterialIcons } from '@expo/vector-icons'; // Import icons from Expo vector icons
+import { Entypo } from '@expo/vector-icons'; // Import icons from Expo vector icons
+
+const SaveDetails = () => {
     // Initialize navigation
     const navigation = useNavigation()
 
-    // Get the current route and extract the "recipe" parameter from route.params
+    // Get the route and extract the 'recipe' parameter from the route
     const route = useRoute();
     const { recipe } = route.params;
 
-    // Function to handle the deletion of a recipe
-    const handleDeleteRecipe = async () => {
-        try {
-            // Delete the recipe document from Firestore using its ID
-            await deleteDoc(doc(db, 'food_recipe', recipe.id));
-            console.log(`Recipe with ID ${recipe.id} deleted successfully.`);
-            // Navigate back to the previous screen or a different screen
-            navigation.goBack();
-        } catch (error) {
-            console.error('Error deleting recipe:', error);
+    // Get the current user from Firebase authentication
+    const currentUser = firebase.auth().currentUser;
+
+    // Initialize a state variable to track whether the recipe is saved by the user
+    const [isSaved, setIsSaved] = useState(false);
+
+    // Check if the recipe is saved by the current user and set 'isSaved' accordingly
+    useEffect(() => {
+        if (currentUser) {
+            // Get a reference to the user's document
+            const userRef = doc(collection(firebase.firestore(), 'users'), currentUser.uid);
+
+            // Get a reference to the recipe document within the user's 'savedRecipes'
+            const recipeRef = doc(userRef, 'savedRecipes', recipe.id);
+
+            // Check if the recipe exists in the user's saved recipes
+            getDoc(recipeRef)
+                .then((docSnapshot) => {
+                    if (docSnapshot.exists()) {
+                        setIsSaved(true);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error checking saved recipe:', error);
+                });
+        }
+    }, [currentUser, recipe]);
+
+    // Function to remove the recipe from the user's saved recipes
+    const removeSavedRecipe = () => {
+        if (currentUser) {
+            // Get a reference to the user's document
+            const userRef = doc(collection(firebase.firestore(), 'users'), currentUser.uid);
+
+            // Get a reference to the recipe document within the user's 'savedRecipes'
+            const recipeRef = doc(userRef, 'savedRecipes', recipe.id);
+
+            // Delete the recipe document from the user's saved recipes
+            deleteDoc(recipeRef)
+                .then(() => {
+                    setIsSaved(false);
+                    navigation.goBack();
+                    console.log('Recipe removed from saved recipes.');
+                })
+                .catch((error) => {
+                    console.error('Error removing saved recipe:', error);
+                });
         }
     };
 
@@ -34,6 +74,7 @@ const CreatedRecipe = () => {
                 <View style={styles.bodyContainer}>
                     <Text style={styles.headerText}>{recipe.data.food_name}</Text>
                     <View style={styles.subContainer}>
+                        <MaterialIcons name="category" size={20} color="black" />
                         <Text style={styles.sectionText}>
                             {recipe.data.category}
                         </Text>
@@ -42,6 +83,7 @@ const CreatedRecipe = () => {
                             {recipe.data.meal}
                         </Text>
                         <View style={styles.divider} />
+                        <Entypo name="time-slot" size={20} color="black" />
                         <Text style={styles.sectionText}>
                             {recipe.data.time_cook}
                         </Text>
@@ -52,17 +94,19 @@ const CreatedRecipe = () => {
                     <Text style={styles.subText}>{recipe.data.direction}</Text>
                     <Text style={styles.subHeaderText}>Ingredients</Text>
                     <Text style={styles.subText}>{recipe.data.ingredient}</Text>
-                    <TouchableOpacity style={styles.buttonContainer} onPress={handleDeleteRecipe}>
-                        <Text style={styles.buttonText}>Delete</Text>
-                    </TouchableOpacity>
-                    <View style={styles.whiteSpace} />
+                    {isSaved ? (
+                        <TouchableOpacity style={styles.buttonContainer} onPress={removeSavedRecipe}>
+                            <Text style={styles.buttonText}>Remove from Saved Recipes</Text>
+                        </TouchableOpacity>
+                    ) : null
+                    }
                 </View>
             </ScrollView>
         </View>
     );
 };
 
-export default CreatedRecipe;
+export default SaveDetails;
 
 const styles = StyleSheet.create({
     container: {

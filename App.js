@@ -5,15 +5,16 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { firebase } from './services/config';
 
-import WelcomeScreen from './screens/WelcomeScreen';
-import LoginScreen from './screens/LoginScreen';
-import RegisterScreen from './screens/RegisterScreen';
+import Welcome from './screens/Welcome';
+import Login from './screens/Login';
+import Register from './screens/Register';
 import Tabs from './tabs';
 
-import SettingScreen from './components/SettingScreen';
+import Setting from './components/Setting';
 import AddScreen from './components/AddScreen';
 import RecipeDetails from './components/RecipeDetails';
 import CreatedRecipe from './components/CreatedRecipe';
+import SaveDetails from './components/SaveDetails';
 
 const Stack = createStackNavigator();
 
@@ -37,9 +38,9 @@ function App() {
   if (!user) {
     return (
       <Stack.Navigator>
-        <Stack.Screen options={{ headerShown: false }} name="Welcome" component={WelcomeScreen} />
-        <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
-        <Stack.Screen options={{ headerShown: false }} name="Register" component={RegisterScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="Welcome" component={Welcome} />
+        <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
+        <Stack.Screen options={{ headerShown: false }} name="Register" component={Register} />
       </Stack.Navigator>
     );
   }
@@ -47,8 +48,9 @@ function App() {
     <Stack.Navigator>
       <Stack.Screen options={{ headerShown: false }} name="Tabs" component={Tabs} />
       <Stack.Screen name="Add Recipe" component={AddScreen} />
-      <Stack.Screen name="Setting" component={SettingScreen} />
+      <Stack.Screen name="Setting" component={Setting} />
       <Stack.Screen name="Recipe Detail" component={RecipeDetails} />
+      <Stack.Screen name="Save Detail" component={SaveDetails} />
       <Stack.Screen name="Created Recipe" component={CreatedRecipe} />
     </Stack.Navigator>
   );

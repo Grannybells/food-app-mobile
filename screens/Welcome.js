@@ -1,11 +1,12 @@
-import { StyleSheet, Text, View, StatusBar, TouchableOpacity, Image } from "react-native";
-import React from "react";
+import React from "react"; // Import React
+import { View, Text, StyleSheet, StatusBar, TouchableOpacity, Image } from "react-native"; // Import components from React Native
 
-import { useNavigation } from '@react-navigation/native';
-import welcome from '../assets/images/welcome.png'
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook from React Navigation
 
-const WelcomeScreen = () => {
+import welcome from '../assets/images/welcome.png'; // Import the 'welcome' image from the assets
 
+const Welcome = () => {
+    // Initialize navigation
     const navigation = useNavigation()
 
     return (
@@ -24,35 +25,38 @@ const WelcomeScreen = () => {
     );
 };
 
-export default WelcomeScreen;
+export default Welcome;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: StatusBar.currentHeight
+        marginTop: StatusBar.currentHeight,
     },
     imgContainer: {
         flex: 4.5,
+        width: '100%',
     },
     buttonContainer: {
         alignItems: 'center',
-        flex: 2
+        flex: 2,
+        width: '100%',
     },
     textContainer: {
-        flexDirection: 'column',
-        flexWrap: 'wrap',
         width: '80%',
+        maxWidth: 400, /* Added maximum width for responsiveness */
+        alignItems: 'center', /* Center the content horizontally */
     },
     heading: {
-        fontSize: 35,
-        fontWeight: '900',
-        textAlign: 'left',
+        fontSize: 28, /* Adjusted font size for better mobile readability */
+        fontWeight: '700', /* Adjusted font weight */
+        textAlign: 'center', /* Center the text */
     },
     subheading: {
         color: 'black',
-        fontSize: 15,
+        fontSize: 14, /* Adjusted font size for better mobile readability */
+        textAlign: 'center', /* Center the text */
     },
     primaryColor: {
         color: '#F18404',
@@ -60,15 +64,15 @@ const styles = StyleSheet.create({
     buttonStart: {
         marginTop: 20,
         backgroundColor: '#F18404',
-        paddingHorizontal: '10%',
-        paddingVertical: '2%',
+        paddingHorizontal: 20, /* Adjusted padding for better mobile layout */
+        paddingVertical: 10, /* Adjusted padding for better mobile layout */
         borderRadius: 30,
         elevation: 5,
-        padding: 16,
     },
     buttonText: {
         color: 'white',
-        fontSize: 25,
+        fontSize: 20,
         fontWeight: 'bold',
     }
 });
+
