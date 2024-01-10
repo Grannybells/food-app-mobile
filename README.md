@@ -3,7 +3,7 @@
 
 Whip up culinary masterpieces with this mobile recipe app, crafted using React Native Expo and a delectable blend of libraries:
 
-### Features:
+### Features
 
 - Discover and Organize Recipes: Explore a collection of delicious recipes and create personal recipe lists.
 - Add New Recipes: Share your culinary creations with the world by adding your own recipes, complete with photos, ingredients, and instructions.
@@ -11,7 +11,7 @@ Whip up culinary masterpieces with this mobile recipe app, crafted using React N
 - Manage Recipe Details: Edit existing recipes to refine instructions, adjust ingredients, or add new photos.
 - Explore Categories: Browse recipes by category to discover new culinary adventures.
   
-### Libraries and Plugins:
+### Libraries and Plugins
 
 - React Native Expo
 - React-native-community/datetimepicker
