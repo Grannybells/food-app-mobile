@@ -13,12 +13,10 @@ Whip up culinary masterpieces with this mobile recipe app, crafted using React N
   
 ### Libraries and Plugins:
 
-- React Native Expo: The foundation for a smooth, cross-platform cooking experience.
-- React-native-community/datetimepicker: Ensures perfectly timed dishes with precise time and date selection.
-- React Navigation: Effortless navigation between recipes with bottom tabs and stack navigators.
-- React-native-dropdown-select-list: Seamless ingredient selection for effortless recipe customization.
-- React-native-firebase/storage: Securely stores mouthwatering recipe photos in the cloud.
-- Firebase: Powers a versatile backend for recipe management and user interactions.
-- Expo-image-picker: Effortlessly captures and uploads captivating recipe images.
-  
-Ready to get cooking? Fork this repo and start creating your own kitchen masterpieces!
+- React Native Expo
+- React-native-community/datetimepicker
+- React Navigation
+- React-native-dropdown-select-list
+- React-native-firebase/storage
+- Firebase
+- Expo-image-picker
